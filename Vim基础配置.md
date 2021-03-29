@@ -2,7 +2,7 @@
 
 ```$ vim ~/.vimrc```
 
-```shell
+```vim
 set number
 set tabstop=4
 set shiftwidth=4
