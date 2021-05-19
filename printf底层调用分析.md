@@ -61,9 +61,7 @@ main:
 	movq	%rsp, %rbp
 	.cfi_def_cfa_register 6
 	leaq	.LC0(%rip), %rdi
-	
 	call	puts@PLT
-	
 	movl	$0, %eax
 	popq	%rbp
 	.cfi_def_cfa 7, 8
@@ -72,6 +70,56 @@ main:
 ```
 
 从汇编代码中可以看出，```printf```函数被转换成了```call puts```指令，而不是```call printf```指令。究其原因，这是编译器对```printf```函数的优化，如果```printf```的参数是以```\n```结束的纯字符串，则```printf```函数会被优化为```puts```函数，且字符串末尾的```‘\n’```被消除；否则，将会正常输出```call printf```指令。
+
+接下来，汇编器将汇编代码转换成可重定位目标文件，此文件是二进制格式，不能直接阅读，可以使用```objdump```对该文件进行反汇编：
+```
+$ gcc -c hello.s -o hello.o
+$ objdump -d hello.o
+```
+```asm
+0000000000000000 <main>:
+   0:	f3 0f 1e fa          	endbr64 
+   4:	55                   	push   %rbp
+   5:	48 89 e5             	mov    %rsp,%rbp
+   8:	48 8d 3d 00 00 00 00 	lea    0x0(%rip),%rdi        # f <main+0xf>
+   f:	e8 00 00 00 00       	callq  14 <main+0x14>
+  14:	b8 00 00 00 00       	mov    $0x0,%eax
+  19:	5d                   	pop    %rbp
+  1a:	c3                   	retq   
+```
+从反汇编代码中可以看到，```call puts```指令中保存了无效的符号地址。
+
+最后，链接器修正```call puts```的符号地址。在链接时，有静态链接和动态链接两种方式，链接方式的不同不会影响函数的调用，此处为了分析方便，以静态链接方式分析目标文件的反汇编代码：
+```
+$ gcc -static hello.s -o hello
+$ objdump -d hello
+```
+```asm
+...
+0000000000401d35 <main>:
+  401d35:	f3 0f 1e fa          	endbr64 
+  401d39:	55                   	push   %rbp
+  401d3a:	48 89 e5             	mov    %rsp,%rbp
+  401d3d:	48 8d 3d c0 32 09 00 	lea    0x932c0(%rip),%rdi        # 495004 <_IO_stdin_used+0x4>
+  401d44:	e8 67 fb 00 00       	callq  4118b0 <_IO_puts>
+  401d49:	b8 00 00 00 00       	mov    $0x0,%eax
+  401d4e:	5d                   	pop    %rbp
+  401d4f:	c3                   	retq   
+...
+```
+此时，```call puts```的符号地址被修正，但反汇编显示的符号是```_IO_puts```。通过使用```readelf```查看```hello```的符号表，可以发现```_IO_puts```和```puts```两个符号性质等价，```objdump```显示了全局符号```_IO_puts```：
+```
+$ readelf -s hello
+```
+```asm
+ Num:    Value          Size Type    Bind   Vis      Ndx Name
+ ...
+ 976: 00000000004118b0   476 FUNC    WEAK   DEFAULT    7 puts
+ ...
+1279: 00000000004118b0   476 FUNC    GLOBAL HIDDEN     7 _IO_puts
+ ...
+```
+
 
 
 ![printf动态调用流程](images/printfGDB.svg)
