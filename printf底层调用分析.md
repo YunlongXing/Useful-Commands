@@ -3,11 +3,12 @@
 对于编译型语言，程序的运行需要经过预编译、编译、汇编和链接四个步骤
 
 
-![printf动态调用流程](images/printfGdb.png)
+
+![printf动态调用流程](images/printfGDB.svg)
 
 
 
-![printf静态代码分析](images/printf_code.pdf)
+![printf静态代码分析](images/printfCODE.svg)
 
 
 ## 参考链接：
