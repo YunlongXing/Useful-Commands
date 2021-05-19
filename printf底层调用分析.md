@@ -4,7 +4,7 @@
 
 
 
-
+![printf动态调用流程](Useful-Commands/images/printf_gdb.pdf)
 
 
 
