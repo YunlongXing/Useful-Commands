@@ -4,8 +4,10 @@
 
 
 
-![printf动态调用流程](Useful-Commands/images/printf_gdb.pdf)
+![printf动态调用流程](images/printf_gdb.pdf)
 
+
+![printf静态代码分析](images/printf_code.pdf)
 
 
 ## 参考链接：
