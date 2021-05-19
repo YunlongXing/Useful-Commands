@@ -22,6 +22,7 @@ int main()
 }
 ```
 
+## 编译过程
 首先，预编译会替换源码中的宏，如```#include```。预编译结束后，可以在被修改的源程序中看到```printf```的声明：
 ```
 $ gcc -E hello.c -o hello.i
@@ -120,11 +121,12 @@ $ readelf -s hello
  ...
 ```
 
-
+## 调用轨迹
 
 ![printf动态调用流程](images/printfGDB.svg)
 
 
+## 源码分析
 
 ![printf静态代码分析](images/printfCODE.svg)
 
