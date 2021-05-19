@@ -71,6 +71,8 @@ main:
 ...
 ```
 
+从汇编代码中可以看出，```printf```函数被转换成了```call puts```指令，而不是```call printf```指令。究其原因，这是编译器对```printf```函数的优化，如果```printf```的参数是以```\n```结束的纯字符串，则```printf```函数会被优化为```puts```函数，且字符串末尾的```‘\n’```被消除；否则，将会正常输出```call printf```指令。
+
 
 ![printf动态调用流程](images/printfGDB.svg)
 
