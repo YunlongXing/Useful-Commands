@@ -123,6 +123,11 @@ $ readelf -s hello
 
 ## 调用轨迹
 
+```
+$ gcc -g hello.c -o hello
+```
+
+
 ![printf动态调用流程](images/printfGDB.svg)
 
 
