@@ -23,9 +23,52 @@ int main()
 ```
 
 首先，预编译会替换源码中的宏，如```#include```。预编译结束后，可以在被修改的源程序中看到```printf```的声明：
-```shell
+```
 $ gcc -E hello.c -o hello.i
 ```
+```c
+...
+extern int printf (const char *__restrict __format, ...);
+...
+int main()
+{
+    printf("Hello, world!\n");
+
+    return 0;
+}
+```
+
+然后，编译器将高级语言转换为汇编代码：
+```
+$ gcc -S hello.i -o hello.s
+```
+```asm
+	.file	"hello.c"
+	.text
+	.section	.rodata
+.LC0:
+	.string	"Hello, world!"
+	.text
+	.globl	main
+	.type	main, @function
+main:
+.LFB0:
+	.cfi_startproc
+	endbr64
+	pushq	%rbp
+	.cfi_def_cfa_offset 16
+	.cfi_offset 6, -16
+	movq	%rsp, %rbp
+	.cfi_def_cfa_register 6
+	leaq	.LC0(%rip), %rdi
+	call	puts@PLT
+	movl	$0, %eax
+	popq	%rbp
+	.cfi_def_cfa 7, 8
+	ret
+...
+```
+
 
 ![printf动态调用流程](images/printfGDB.svg)
 
