@@ -167,8 +167,7 @@ Dump of assembler code for function write:
 
 ## 源码分析
 
-```puts(libio/ioputs.c)``` &rArr; ```_IO_puts(libio/ioputs.c)``` &rArr; ```_IO_sputn(/libio/libioP.h)``` &rArr; ```_IO_XSPUTN(/libio/libioP.h)``` &rArr; ```__xsputn(libio/fileops.c)``` &rArr; ```_IO_file_xsputn(libio/fileops.c)``` &rArr; ```_IO_new_file_xsputn(libio/fileops.c)``` &rArr; ```_IO_OVERFLOW(/libio/libioP.h)``` &rArr; ```__overflow(libio/fileops.c)``` &rArr; ```_IO_file_overflow(libio/fileops.c)``` &rArr; ```_IO_new_file_overflow(libio/fileops.c)``` &rArr; ```_IO_do_write(libio/fileops.c)``` &rArr; ```_IO_new_do_write(libio/fileops.c)``` &rArr; ```new_do_write(libio/fileops.c)``` &rArr; ```_IO_SYSWRITE(/libio/libioP.h)``` &rArr; ```__write(libio/fileops.c)``` &rArr; ```_IO_new_file_write(libio/fileops.c)``` &rArr; ```__write_nocancel(sysdeps/unix/sysv/linux/write_nocancel.c)``` &rArr; ```INLINE_SYSCALL_CALL(write)```
-
+![printf静态源码分析](images/printfCODE.svg)
 
 ## 参考链接：
 [printf背后的故事](https://www.cnblogs.com/fanzhidongyzby/p/3519838.html)
