@@ -123,10 +123,37 @@ $ readelf -s hello
 
 ## 调用轨迹
 
+分析完程序的编译过程，接下来寻找```printf```的调用轨迹。选择静态链接后的二进制程序```hello```，然后使用```gdb```调试：
+
 ```
 $ gcc -g hello.c -o hello
+$ gdb ./hello
 ```
-
+在```main```函数开始设置断点，执行后，不断使用```stepi```单步步入下一条指令，直到输出```Hello, world!```为止：
+```shell
+(gdb) break main
+(gdb) run
+(gdb) stepi
+```
+```shell
+(gdb) 
+0x0000000000448875 in write ()
+(gdb) 
+Hello, world!
+```
+可以看到输出```Hello, world!```上一行代码为止是```0x0000000000448875```，查看此处汇编代码：
+```
+(gdb) disassemble
+```
+```shell
+Dump of assembler code for function write:
+   0x0000000000448860 <+0>:	endbr64 
+   0x0000000000448864 <+4>:	mov    %fs:0x18,%eax
+   0x000000000044886c <+12>:	test   %eax,%eax
+   0x000000000044886e <+14>:	jne    0x448880 <write+32>
+   0x0000000000448870 <+16>:	mov    $0x1,%eax
+   0x0000000000448875 <+21>:	syscall 
+```
 
 ![printf动态调用流程](images/printfGDB.svg)
 
