@@ -167,13 +167,8 @@ Dump of assembler code for function write:
 
 ## 源码分析
 
-
-然后，我们又从源码级分析了printf函数的实现过程，如图4-3所示，其中矩形表示函数及其中间函数，箭头表示调用关系，箭头上的数字调用的不同类型，其中数字1表示使用宏进行同名替换，如使用弱别名替换宏将__printf函数表示为printf；数字2表示函数调用；数字3表示宏内的函数调用。在进行源码分析时，函数分支非常复杂，我们忽略了所有其他的分支情况，只保留了实现核心功能的一条分支。
-
-
-![printf静态代码分析](images/printfCODE.svg)
+```puts(libio/ioputs.c)``` &rArr; ```_IO_puts(libio/ioputs.c)``` &rArr; ```_IO_sputn(/libio/libioP.h)``` &rArr; ```_IO_XSPUTN(/libio/libioP.h)``` &rArr; ```__xsputn(libio/fileops.c)``` &rArr; ```_IO_file_xsputn(libio/fileops.c)``` &rArr; ```_IO_new_file_xsputn(libio/fileops.c)``` &rArr; ```_IO_OVERFLOW(/libio/libioP.h)``` &rArr; ```__overflow(libio/fileops.c)``` &rArr; ```_IO_file_overflow(libio/fileops.c)``` &rArr; ```_IO_new_file_overflow(libio/fileops.c)``` &rArr; ```_IO_do_write(libio/fileops.c)``` &rArr; ```_IO_new_do_write(libio/fileops.c)``` &rArr; ```new_do_write(libio/fileops.c)``` &rArr; ```_IO_SYSWRITE(/libio/libioP.h)``` &rArr; ```__write(libio/fileops.c)``` &rArr; ```_IO_new_file_write(libio/fileops.c)``` &rArr; ```__write_nocancel(sysdeps/unix/sysv/linux/write_nocancel.c)``` &rArr; ```INLINE_SYSCALL_CALL(write)```
 
 
 ## 参考链接：
-[printf背后的故事](https://www.cnblogs.com/fanzhidongyzby/p/3519838.html) <br>
-[I/O设备管理实验 - 代码分析](http://edward-zhu.github.io/special/os_exp/2015/01/03/exp-6.2.html)
+[printf背后的故事](https://www.cnblogs.com/fanzhidongyzby/p/3519838.html)
