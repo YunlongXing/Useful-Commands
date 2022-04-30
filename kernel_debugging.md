@@ -5,7 +5,7 @@
 
 2. 安装qemu: ```sudo apt install qemu```.
 
-3. 
+3. 编译busybox: 下载busybox[源码](https://busybox.net/downloads/), 进入目录，执行```make menuconfig```选择需要的编译选项 (勾选Settings => Build Options => Build static binary), 最后```make && make install```.
 
 ```sh
 sudo qemu-system-x86_64 -kernel ./kernel_debugging/linux-5.16.10/arch/x86_64/boot/bzImage -hda qemu_rootfs.img -append "root=/dev/sda rootfstype=ext4 rw nokaslr" -s -S
