@@ -8,7 +8,8 @@
 3. 编译busybox: 下载busybox[源码](https://busybox.net/downloads/), 进入目录，执行```make menuconfig```选择需要的编译选项 (勾选Settings => Build Options => Build static binary), 最后```make && make install```.
 
 ## 制作rootfs磁盘镜像文件
-
+1. 创建目录qemu_rootfs: ```mkdir qemu_rootfs```.
+2. 使用qemu-img命令生成磁盘镜像文件：```qemu-img create qemu_rootfs.img  50g```，其中qemu_rootfs.img是文件名，50g是磁盘大小.
 
 
 ```sh
