@@ -14,6 +14,8 @@
 
 3. 创建ext4文件系统: ```mkfs.ext4 qemu_rootfs.img```.
 
+4. 挂载img文件到宿主系统: ```sudo mount -o loop qemu_rootfs.img .```, 这里-o loop的意思是将qemu_rootfs.img作为硬盘文件，挂载在qemu_rootfs目录下.
+
 
 ```sh
 sudo qemu-system-x86_64 -kernel ./kernel_debugging/linux-5.16.10/arch/x86_64/boot/bzImage -hda qemu_rootfs.img -append "root=/dev/sda rootfstype=ext4 rw nokaslr" -s -S
