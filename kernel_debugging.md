@@ -9,6 +9,7 @@
 
 ## 制作rootfs磁盘镜像文件
 1. 创建目录qemu_rootfs: ```mkdir qemu_rootfs```.
+
 2. 使用qemu-img命令生成磁盘镜像文件：```qemu-img create qemu_rootfs.img  50g```，其中qemu_rootfs.img是文件名，50g是磁盘大小.
 
 
