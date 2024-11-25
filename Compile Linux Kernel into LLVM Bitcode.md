@@ -23,3 +23,16 @@ $ make CC=wllvm -j$(nproc)
 $ extract-bc vmlinux
 $ llvm-dis-11 vmlinux.bc
 ```
+
+compile openssl into bytecode with asan enabled
+```bash
+$ export LLVM_COMPILER=clang
+$ ./config -fPIC no-shared enable-asan
+$ make CC=wwllvm -j$(nproc)
+```
+Then in ./apps folder
+```bash
+$ extract-bc openssl
+$ llvm-dis openssl.bc
+```
+The generated file is named openssl.ll
